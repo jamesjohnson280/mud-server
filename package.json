@@ -1,0 +1,24 @@
+{
+  "name": "mud-server",
+  "version": "1.0.0",
+  "description": "A websockets based mud server",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesjohnson280/mud-server.git"
+  },
+  "keywords": [
+    "node",
+    "websockets",
+    "mud"
+  ],
+  "author": "James Johnson <james.johnson280@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jamesjohnson280/mud-server/issues"
+  },
+  "homepage": "https://github.com/jamesjohnson280/mud-server#readme"
+}
