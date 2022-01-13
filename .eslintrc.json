@@ -5,6 +5,7 @@
     "jest/globals": true
   },
   "extends": ["eslint:recommended", "prettier"],
+  "ignorePatterns": ["*.config.cjs"],
   "parserOptions": {
     "ecmaVersion": 13,
     "sourceType": "module"
