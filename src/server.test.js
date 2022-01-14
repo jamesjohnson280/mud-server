@@ -31,6 +31,26 @@ describe('server', () => {
     await waitForClientState(client, WebSocket.CLOSED);
     expect(message).toBe(Server.WelcomeMessage);
   });
+
+  test('responds when client sends a message', async () => {
+    const client = await startClient();
+    const sentMessage = 'Hi!';
+    let receivedMessage;
+
+    client.on('open', () => {
+      client.send(sentMessage);
+    });
+
+    client.on('message', (data) => {
+      receivedMessage = `${data}`;
+      if (receivedMessage === sentMessage) {
+        client.close();
+      }
+    });
+
+    await waitForClientState(client, WebSocket.CLOSED);
+    expect(receivedMessage).toBe(sentMessage);
+  });
 });
 
 async function startClient() {

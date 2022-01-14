@@ -8,6 +8,10 @@ class Server {
     this.#wss = new WebSocketServer({ port: config.port });
     this.#wss.on('connection', (client) => {
       client.send(Server.WelcomeMessage);
+
+      client.on('message', (data, isBinary) => {
+        client.send(data, { binary: isBinary });
+      });
     });
   }
   static stop() {
