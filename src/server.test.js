@@ -13,10 +13,23 @@ describe('server', () => {
   test('accepts connections', async () => {
     const client = await startClient();
     const mockOpen = jest.fn();
+
     client.on('open', mockOpen);
     await waitForClientState(client, WebSocket.OPEN);
     expect(mockOpen).toHaveBeenCalled();
     client.close();
+  });
+
+  test('sends a welcome message', async () => {
+    const client = await startClient();
+    let message;
+
+    client.on('message', (data) => {
+      message = `${data}`;
+      client.close();
+    });
+    await waitForClientState(client, WebSocket.CLOSED);
+    expect(message).toBe(Server.WelcomeMessage);
   });
 });
 
