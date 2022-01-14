@@ -1,5 +1,5 @@
 import { WebSocketServer } from 'ws';
-import config from './config';
+import config from './config.js';
 
 /**
  * The mud server
