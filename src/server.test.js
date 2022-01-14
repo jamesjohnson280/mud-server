@@ -6,6 +6,7 @@ describe('server', () => {
   beforeAll(async () => {
     await Server.start();
   });
+
   afterAll(() => {
     Server.stop();
   });
@@ -28,6 +29,7 @@ describe('server', () => {
       message = `${data}`;
       client.close();
     });
+
     await waitForClientState(client, WebSocket.CLOSED);
     expect(message).toBe(Server.WelcomeMessage);
   });
@@ -53,10 +55,12 @@ describe('server', () => {
   });
 });
 
+// Waits for a websocket client to be created and returns it
 async function startClient() {
   return new WebSocket(`ws://localhost:${config.port}`);
 }
 
+// Waits for a client to reach a certain state before returning
 async function waitForClientState(client, state) {
   return new Promise(function (resolve) {
     setTimeout(() => {
