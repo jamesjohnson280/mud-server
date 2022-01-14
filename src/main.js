@@ -1,1 +1,7 @@
-console.log('Hello, world!');
+import Server from './Server.js';
+
+function main() {
+  Server.start();
+}
+
+main();
