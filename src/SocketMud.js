@@ -16,7 +16,10 @@ function startMud() {
         const p = newPlayer(data, server, client, player);
         players.set(client, { ...p });
       } else {
-        client.send(`Echo: ${data}`);
+        parse(client, server, {
+          players,
+          command: `${data}`
+        });
       }
     });
 
@@ -45,6 +48,17 @@ function newPlayer(data, server, client, player) {
     }
   });
   return player;
+}
+
+function parse(client, server, state) {
+  const { command, players } = state;
+  const player = players.get(client);
+  client.send(`You say: "${command}"`);
+  server.clients.forEach((c) => {
+    if (c !== client && c.readyState === WebSocket.OPEN) {
+      c.send(`${player.name}: "${command}"`);
+    }
+  });
 }
 
 export { startMud };
