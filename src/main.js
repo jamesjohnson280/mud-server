@@ -1,7 +1,7 @@
-import Server from './Server.js';
+import { startMud } from './SocketMud.js';
 
 function main() {
-  Server.start();
+  startMud();
 }
 
 main();
