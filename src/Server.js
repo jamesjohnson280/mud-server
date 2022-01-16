@@ -3,7 +3,9 @@ import { config } from './config.js';
 
 let _wss;
 
+/** The mud server */
 const Server = Object.freeze({
+  /** Starts the server */
   start: () => {
     _wss = new WebSocketServer({ port: config.port });
     _wss.on('connection', (client) => {
@@ -14,6 +16,8 @@ const Server = Object.freeze({
       });
     });
   },
+
+  /** Stops the server */
   stop: () => {
     _wss.close();
   }
