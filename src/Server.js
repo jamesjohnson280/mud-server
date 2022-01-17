@@ -1,3 +1,6 @@
+/**
+ * @module Server
+ */
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
 
