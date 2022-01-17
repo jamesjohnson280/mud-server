@@ -1,7 +1,6 @@
-import { MudServer } from './MudServer.js';
+/** @module main */
 
-function main() {
-  MudServer.start();
-}
+/** The Mud server's CLI entry point */
+function main() {}
 
 main();

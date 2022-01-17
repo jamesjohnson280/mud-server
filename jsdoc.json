@@ -3,6 +3,7 @@
     "include": ["src"]
   },
   "opts": {
+    "destination": "./doc",
     "template": "node_modules/better-docs"
   }
 }

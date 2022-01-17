@@ -1,14 +1,13 @@
 /** @module config */
 
 /**
- * The mud server's configuration
+ * The Mud server's configuration
  * @example
  * const config = Object.freeze({
- *   port: 8080
+ *   port: 8080 // Port to serve the Mud on
  * });
  */
 const config = Object.freeze({
-  /** Port to serve the mud on. Defaults to 8080 */
   port: 8080
 });
 
