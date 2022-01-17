@@ -1,4 +1,6 @@
-/** @module config */
+/**
+ * The Mud server's default configuration
+ * @module config */
 
 /**
  * The Mud server's configuration
