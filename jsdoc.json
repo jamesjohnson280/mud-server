@@ -1,0 +1,9 @@
+{
+  "source": {
+    "include": ["src", "src/mud"]
+  },
+  "opts": {
+    "destination": "./doc",
+    "template": "node_modules/better-docs"
+  }
+}

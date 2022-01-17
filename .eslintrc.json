@@ -4,12 +4,12 @@
     "es2021": true,
     "jest/globals": true
   },
-  "extends": ["eslint:recommended", "prettier"],
+  "extends": ["eslint:recommended", "plugin:security/recommended", "prettier"],
   "ignorePatterns": ["*.config.cjs"],
   "parserOptions": {
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "plugins": ["jest"],
+  "plugins": ["jest", "security"],
   "rules": {}
 }
