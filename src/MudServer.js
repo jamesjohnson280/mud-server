@@ -1,6 +1,4 @@
-/**
- * @module Server
- */
+/** @module MudServer */
 import { WebSocketServer } from 'ws';
 import { config } from './config.js';
 
@@ -8,7 +6,7 @@ let _wss;
 
 /** The mud server */
 const MudServer = Object.freeze({
-  /** Starts the server */
+  /** Starts the game and accepts connections from players */
   start: () => {
     _wss = new WebSocketServer({ port: config.port });
     _wss.on('connection', (client) => {
@@ -20,7 +18,7 @@ const MudServer = Object.freeze({
     });
   },
 
-  /** Stops the server */
+  /** Shuts down the game */
   stop: () => {
     _wss.close();
   }
