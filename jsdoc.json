@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["src"]
+    "include": ["src", "src/mud"]
   },
   "opts": {
     "destination": "./doc",
