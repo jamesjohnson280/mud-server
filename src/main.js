@@ -1,7 +1,7 @@
-import { Server } from './Server.js';
+import { MudServer } from './MudServer.js';
 
 function main() {
-  Server.start();
+  MudServer.start();
 }
 
 main();

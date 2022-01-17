@@ -1,14 +1,14 @@
 import { WebSocket } from 'ws';
 import { config } from './config.js';
-import { Server } from './Server.js';
+import { MudServer } from './MudServer.js';
 
 describe('server', () => {
   beforeAll(async () => {
-    await Server.start();
+    MudServer.start();
   });
 
   afterAll(() => {
-    Server.stop();
+    MudServer.stop();
   });
 
   test('accepts connections', async () => {

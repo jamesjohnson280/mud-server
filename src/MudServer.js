@@ -7,12 +7,12 @@ import { config } from './config.js';
 let _wss;
 
 /** The mud server */
-const Server = Object.freeze({
+const MudServer = Object.freeze({
   /** Starts the server */
   start: () => {
     _wss = new WebSocketServer({ port: config.port });
     _wss.on('connection', (client) => {
-      client.send(Server.WelcomeMessage);
+      client.send('Hello, world!');
 
       client.on('message', (data, isBinary) => {
         client.send(data, { binary: isBinary });
@@ -26,4 +26,4 @@ const Server = Object.freeze({
   }
 });
 
-export { Server };
+export { MudServer };
