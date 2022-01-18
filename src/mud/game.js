@@ -23,4 +23,4 @@ function registerPlayer(key, world, message) {
   return `Hello, ${name}.`;
 }
 
-export { handlePlayerInput, notRegistered, registerPlayer };
+export { handlePlayerInput };
