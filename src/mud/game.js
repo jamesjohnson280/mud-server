@@ -1,4 +1,4 @@
-function handleMessage(key, world, message) {
+function handlePlayerInput(key, world, message) {
   const player = world.players.get(key);
   if (notRegistered(player)) {
     return registerPlayer(key, world, message);
@@ -19,4 +19,4 @@ function registerPlayer(key, world, message) {
   return `Hello, ${name}.`;
 }
 
-export { handleMessage, notRegistered, registerPlayer };
+export { handlePlayerInput, notRegistered, registerPlayer };

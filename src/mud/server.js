@@ -4,7 +4,7 @@
  */
 import { WebSocket, WebSocketServer } from 'ws';
 import { Title, Version } from './constants.js';
-import { handleMessage } from './game.js';
+import { handlePlayerInput } from './game.js';
 
 /**
  * Starts the Mud server
@@ -40,7 +40,7 @@ function onConnection(client, server, world) {
   /* Handle player messages */
   client.on('message', (data, isBinary) => {
     const sanitized = sanitizeData(data, isBinary);
-    const message = handleMessage(client, world, sanitized);
+    const message = handlePlayerInput(client, world, sanitized);
     client.send(message);
   });
 }
