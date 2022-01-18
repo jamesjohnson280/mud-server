@@ -1,15 +1,18 @@
 import { handlePlayerInput } from './game';
 import { World } from './World';
+import { rooms } from './data/rooms';
 
 describe('game', () => {
   test('it registers new players', () => {
-    const message = handlePlayerInput(new World(), {}, 'Jim');
-    expect(message).toBe('Hello, Jim.');
+    const message = handlePlayerInput(new World(rooms), {}, 'Jim');
+    expect(/Hello, Jim./gi.test(message)).toBeTruthy();
   });
 
-  test('it registers new players', () => {
-    const message = handlePlayerInput(new World(), {}, 'Jim');
-    expect(message).toBe('Hello, Jim.');
+  test('after registering, it sends the player to the starting room', () => {
+    const world = new World(rooms);
+    world.players.set({ id: 'jim' }, { name: 'Jim' });
+    const message = handlePlayerInput(world, { id: 'jim' }, 'Jim');
+    expect(/Dirt Road/gi.test(message)).toBeTruthy();
   });
 
   test('it handles registered player input', () => {

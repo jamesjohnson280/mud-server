@@ -2,8 +2,9 @@ import { WebSocket } from 'ws';
 import { startServer } from './server.js';
 import { World } from './World.js';
 import { config } from '../config.js';
+import { rooms } from './data/rooms.js';
 
-const gameWorld = new World();
+const gameWorld = new World(rooms);
 let server;
 
 describe('server', () => {
@@ -40,13 +41,12 @@ describe('server', () => {
 
   test('it replies to messages it receives', async () => {
     const client = new WebSocket(`ws://localhost:${config.port}`);
-    const expected = 'Hello, Jim.';
     let message;
     client.on('message', (data, isBinary) => {
       if (isBinary) return;
       const msg = `${data}`;
       console.log(msg, 'msg');
-      if (msg === expected) {
+      if (/Hello, Jim/gi.test(msg)) {
         message = msg;
       } else {
         client.send('Jim');
@@ -54,7 +54,7 @@ describe('server', () => {
       client.close();
     });
     await socketState(client, WebSocket.CLOSED);
-    expect(message).toEqual(expected);
+    expect(/Hello, Jim/gi.test(message)).toBeTruthy();
   });
 
   afterAll(() => {
