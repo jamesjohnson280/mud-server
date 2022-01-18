@@ -11,8 +11,8 @@ function notRegistered(player) {
 }
 
 function registerPlayer(key, world, message) {
-  const name = `${message}`.trim();
-  if (!message || !name) {
+  const name = message ? `${message}`.trim() : '';
+  if (!name) {
     return 'Enter your name:';
   }
   world.players.set(key, { name });

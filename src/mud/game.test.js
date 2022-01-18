@@ -18,9 +18,9 @@ describe('game', () => {
     expect(result).toEqual('Hello, Jim.');
   });
 
-  test("it reprompts if the user doesn't enter a name", () => {
+  test('it reprompts if the user enters a blank string', () => {
     const client = { id: 'test-client' };
-    const result = registerPlayer(client, new World(), null);
+    const result = registerPlayer(client, new World(), '\n');
     expect(result).toEqual('Enter your name:');
   });
 });
