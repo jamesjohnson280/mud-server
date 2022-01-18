@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import { startServer, registerPlayer } from './server.js';
+import { startServer } from './server.js';
 import { World } from './World.js';
 import { config } from '../config.js';
 
@@ -38,55 +38,22 @@ describe('server', () => {
     expect(message).toEqual(expected);
   });
 
-  describe('it registers new players', () => {
-    test('it asks for a name when a player connnects', async () => {
-      const client = new WebSocket(`ws://localhost:${config.port}`);
-      const expected = 'Hello, Jim.';
-      let message;
-      client.on('message', (data, isBinary) => {
-        if (isBinary) return;
-        const msg = `${data}`;
-        if (msg === 'Enter your name:') {
-          client.send('Jim');
-        }
-        if (msg === expected) {
-          message = msg;
-          client.close();
-        }
-      });
-      await socketState(client, WebSocket.CLOSED);
-      expect(message).toEqual(expected);
+  test('it replies to messages it receives', async () => {
+    const client = new WebSocket(`ws://localhost:${config.port}`);
+    const expected = 'Hi';
+    let message;
+    client.on('message', (data, isBinary) => {
+      if (isBinary) return;
+      const msg = `${data}`;
+      if (msg === expected) {
+        message = msg;
+      } else {
+        client.send('Hi');
+      }
+      client.close();
     });
-
-    test("it  reprompts if the player doesn'nt enter a name", async () => {
-      const client = new WebSocket(`ws://localhost:${config.port}`);
-      const expected = 'Enter your name:';
-      let message;
-      let sent = false;
-      client.on('message', (data, isBinary) => {
-        if (isBinary) return;
-        const msg = `${data}`;
-        if (msg === expected) {
-          if (!sent) {
-            client.send('');
-            sent = true;
-            return;
-          }
-          if (sent) {
-            message = msg;
-            client.close();
-          }
-        }
-      });
-      await socketState(client, WebSocket.CLOSED);
-      expect(message).toEqual(expected);
-    });
-
-    test('adds the player to the game world', () => {
-      const client = { id: 'test-client' };
-      const player = registerPlayer(client, 'Jim', gameWorld);
-      expect(gameWorld.players.get(client).name).toEqual(player.name);
-    });
+    await socketState(client, WebSocket.CLOSED);
+    expect(message).toEqual(expected);
   });
 
   afterAll(() => {
