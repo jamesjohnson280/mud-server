@@ -40,15 +40,16 @@ describe('server', () => {
 
   test('it replies to messages it receives', async () => {
     const client = new WebSocket(`ws://localhost:${config.port}`);
-    const expected = 'Hi';
+    const expected = 'Hello, Jim.';
     let message;
     client.on('message', (data, isBinary) => {
       if (isBinary) return;
       const msg = `${data}`;
+      console.log(msg, 'msg');
       if (msg === expected) {
         message = msg;
       } else {
-        client.send('Hi');
+        client.send('Jim');
       }
       client.close();
     });

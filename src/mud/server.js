@@ -4,6 +4,7 @@
  */
 import { WebSocket, WebSocketServer } from 'ws';
 import { Title, Version } from './constants.js';
+import { handleMessage } from './game.js';
 
 /**
  * Starts the Mud server
@@ -28,6 +29,7 @@ function startServer(world, config) {
 }
 
 function onConnection(client, server, world) {
+  /* Send a welcome message */
   if (client.readyState === WebSocket.OPEN) {
     client.send(`Welcome to ${Title}`);
     client.send('');
@@ -37,13 +39,14 @@ function onConnection(client, server, world) {
 
   /* Handle player messages */
   client.on('message', (data, isBinary) => {
-    const message = sanitizeData(data, isBinary);
+    const sanitized = sanitizeData(data, isBinary);
+    const message = handleMessage(client, world, sanitized);
     client.send(message);
   });
 }
 
 function sanitizeData(data, isBinary) {
-  if (isBinary) return;
+  if (isBinary) return null;
   const message = `${data}`;
   return message;
 }
