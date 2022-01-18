@@ -19,9 +19,12 @@ function handlePlayerInput(world, key, message) {
   if (notRegistered(player)) {
     const buf = registerPlayer(world, key, message);
     const buf2 = doIntro(world, key);
-    return `${buf}${buf2}`;
+    const self = `${buf}${buf2}`;
+    const p = world.players.get(key);
+    const others = `${p.name} has joined the game`;
+    return reply(self, others);
   }
-  return message;
+  return reply(message);
 }
 
 function notRegistered(player) {
@@ -46,6 +49,13 @@ function doIntro(world, key) {
   world.players.set(key, { ...player, seenIntro: true, location: 'dirt-road' });
   const room = world.rooms.get('dirt-road');
   return ` You start off at the:\n\n${room.name}\n${room.description}`;
+}
+
+function reply(self, others) {
+  return {
+    self,
+    others: others || undefined
+  };
 }
 
 export { handlePlayerInput };

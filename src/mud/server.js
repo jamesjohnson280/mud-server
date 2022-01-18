@@ -40,8 +40,15 @@ function onConnection(client, server, world) {
   /* Then set up to handle client messages */
   client.on('message', (data, isBinary) => {
     const sanitized = sanitizeData(data, isBinary);
-    const message = handlePlayerInput(world, client, sanitized);
-    client.send(message);
+    const reply = handlePlayerInput(world, client, sanitized);
+    client.send(reply.self);
+    server.clients.forEach((cl) => {
+      if (cl !== client) {
+        if (cl.readyState == WebSocket.OPEN) {
+          cl.send(reply.others);
+        }
+      }
+    });
   });
 }
 
