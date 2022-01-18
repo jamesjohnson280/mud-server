@@ -29,7 +29,7 @@ function startServer(world, config) {
 }
 
 function onConnection(client, server, world) {
-  /* Send a welcome message */
+  /* First Send a welcome message */
   if (client.readyState === WebSocket.OPEN) {
     client.send(`Welcome to ${Title}`);
     client.send('');
@@ -37,7 +37,7 @@ function onConnection(client, server, world) {
     world.players.set(client, {});
   }
 
-  /* Handle player messages */
+  /* Then set up to handle client messages */
   client.on('message', (data, isBinary) => {
     const sanitized = sanitizeData(data, isBinary);
     const message = handlePlayerInput(client, world, sanitized);

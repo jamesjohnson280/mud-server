@@ -1,3 +1,19 @@
+/**
+ * The game module
+ * @module game
+ */
+
+/**
+ * Handles raw player input and returns the message to send back to the client
+ * @example
+ * const message = handleInput(client, new World(), 'Jim');
+ * console.log(message);
+ * // 'Hello, Jim'
+ * @param {Any} key The key used to lookup the player in the world.
+ * @param {World} world The game World object
+ * @param {string} message The input to handle
+ * @returns A string containing the result of processing the input to be send back to the player
+ */
 function handlePlayerInput(key, world, message) {
   const player = world.players.get(key);
   if (notRegistered(player)) {
