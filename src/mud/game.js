@@ -7,7 +7,11 @@ function handlePlayerInput(key, world, message) {
 }
 
 function notRegistered(player) {
-  return typeof player.name !== 'string';
+  if (!player) return true;
+  if (player.name && typeof player.name === 'string') {
+    return false;
+  }
+  return true;
 }
 
 function registerPlayer(key, world, message) {

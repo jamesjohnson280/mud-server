@@ -1,26 +1,22 @@
-import { notRegistered, registerPlayer } from './game';
+import { handlePlayerInput } from './game';
 import { World } from './World';
 
 describe('game', () => {
-  test('it checks if a player is not registered', () => {
-    const result = notRegistered({});
-    expect(result).toBe(true);
+  test('it registers new players', () => {
+    const message = handlePlayerInput({}, new World(), 'Jim');
+    expect(message).toBe('Hello, Jim.');
   });
 
-  test('it checks if a player is registered', () => {
-    const result = notRegistered({ name: 'Jim' });
-    expect(result).toBe(false);
+  test('it registers new players', () => {
+    const message = handlePlayerInput({}, new World(), 'Jim');
+    expect(message).toBe('Hello, Jim.');
   });
 
-  test('it registers players with the game world', () => {
-    const client = { id: 'test-client' };
-    const result = registerPlayer(client, new World(), 'Jim');
-    expect(result).toEqual('Hello, Jim.');
-  });
-
-  test('it reprompts if the user enters a blank string', () => {
-    const client = { id: 'test-client' };
-    const result = registerPlayer(client, new World(), '\n');
-    expect(result).toEqual('Enter your name:');
+  test('it handles registered player input', () => {
+    const world = new World();
+    const key = { id: 'jim' };
+    world.players.set(key, { name: 'Jim' });
+    const message = handlePlayerInput(key, world, 'hi');
+    expect(message).toBe('hi');
   });
 });
