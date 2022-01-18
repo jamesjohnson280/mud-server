@@ -40,7 +40,7 @@ function onConnection(client, server, world) {
   /* Then set up to handle client messages */
   client.on('message', (data, isBinary) => {
     const sanitized = sanitizeData(data, isBinary);
-    const message = handlePlayerInput(client, world, sanitized);
+    const message = handlePlayerInput(world, client, sanitized);
     client.send(message);
   });
 }

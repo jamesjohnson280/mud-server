@@ -9,15 +9,15 @@
  * const message = handleInput(client, new World(), 'Jim');
  * console.log(message);
  * // 'Hello, Jim'
- * @param {Any} key The key used to lookup the player in the world.
  * @param {World} world The game World object
+ * @param {Any} key The key used to lookup the player in the world.
  * @param {string} message The input to handle
  * @returns A string containing the result of processing the input to be send back to the player
  */
-function handlePlayerInput(key, world, message) {
+function handlePlayerInput(world, key, message) {
   const player = world.players.get(key);
   if (notRegistered(player)) {
-    return registerPlayer(key, world, message);
+    return registerPlayer(world, key, message);
   }
   return message;
 }
@@ -30,7 +30,7 @@ function notRegistered(player) {
   return true;
 }
 
-function registerPlayer(key, world, message) {
+function registerPlayer(world, key, message) {
   const name = message ? `${message}`.trim() : '';
   if (!name) {
     return 'Enter your name:';

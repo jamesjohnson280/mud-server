@@ -3,12 +3,12 @@ import { World } from './World';
 
 describe('game', () => {
   test('it registers new players', () => {
-    const message = handlePlayerInput({}, new World(), 'Jim');
+    const message = handlePlayerInput(new World(), {}, 'Jim');
     expect(message).toBe('Hello, Jim.');
   });
 
   test('it registers new players', () => {
-    const message = handlePlayerInput({}, new World(), 'Jim');
+    const message = handlePlayerInput(new World(), {}, 'Jim');
     expect(message).toBe('Hello, Jim.');
   });
 
@@ -16,7 +16,7 @@ describe('game', () => {
     const world = new World();
     const key = { id: 'jim' };
     world.players.set(key, { name: 'Jim' });
-    const message = handlePlayerInput(key, world, 'hi');
+    const message = handlePlayerInput(world, key, 'hi');
     expect(message).toBe('hi');
   });
 });
