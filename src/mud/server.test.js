@@ -4,6 +4,7 @@ import { World } from './World.js';
 import { config } from '../config.js';
 import { rooms } from './data/rooms.js';
 
+const serverUrl = `ws://localhost:${config.port}`;
 const gameWorld = new World(rooms);
 let server;
 
@@ -14,7 +15,7 @@ describe('server', () => {
 
   test('it accepts incoming connections', async () => {
     const mockConnection = jest.fn();
-    const client = new WebSocket(`ws://localhost:${config.port}`);
+    const client = new WebSocket(serverUrl);
     client.on('open', () => {
       mockConnection();
       client.close();
@@ -24,37 +25,19 @@ describe('server', () => {
   });
 
   test('it sends a welcome message', async () => {
-    const client = new WebSocket(`ws://localhost:${config.port}`);
-    const expected = 'Welcome to SocketMud';
-    let message;
-    client.on('message', (data, isBinary) => {
-      if (isBinary) return;
-      const msg = `${data}`;
-      if (msg === expected) {
-        message = msg;
-      }
-      client.close();
-    });
-    await socketState(client, WebSocket.CLOSED);
-    expect(message).toEqual(expected);
+    const client = new WebSocket(serverUrl);
+    const { data } = await onMessage(client);
+    client.close();
+    expect(`${data}`).toEqual('Welcome to SocketMud');
   });
 
   test('it replies to messages it receives', async () => {
-    const client = new WebSocket(`ws://localhost:${config.port}`);
-    let message;
-    client.on('message', (data, isBinary) => {
-      if (isBinary) return;
-      const msg = `${data}`;
-      console.log(msg, 'msg');
-      if (/Hello, Jim/gi.test(msg)) {
-        message = msg;
-      } else {
-        client.send('Jim');
-      }
-      client.close();
-    });
-    await socketState(client, WebSocket.CLOSED);
-    expect(/Hello, Jim/gi.test(message)).toBeTruthy();
+    const client = new WebSocket(serverUrl);
+    await onMessage(client); /* skip welcome message */
+    client.send('Jim');
+    const { data } = await onMessage(client);
+    client.close();
+    expect(/Hello, Jim/gi.test(`${data}`)).toBeTruthy();
   });
 
   afterAll(() => {
@@ -72,5 +55,13 @@ function socketState(socket, state) {
         socketState(socket, state).then(resolve);
       }
     }, 5);
+  });
+}
+
+function onMessage(client) {
+  return new Promise((resolve) => {
+    client.on('message', (data, isBinary) => {
+      resolve({ data, isBinary });
+    });
   });
 }
