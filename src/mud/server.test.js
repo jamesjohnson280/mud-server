@@ -40,6 +40,24 @@ describe('server', () => {
     expect(/Hello, Jim/gi.test(`${data}`)).toBeTruthy();
   });
 
+  test('it alerts other players when another takes an action', async () => {
+    const brian = new WebSocket(serverUrl);
+    await onMessage(brian);
+    brian.send('Brian');
+    await onMessage(brian);
+
+    const jim = new WebSocket(serverUrl);
+    await onMessage(jim);
+    jim.send('Jim');
+
+    const { data } = await onMessage(brian);
+
+    jim.close();
+    brian.close();
+
+    expect(/Jim has joined the game/gi.test(`${data}`)).toBeTruthy();
+  });
+
   afterAll(() => {
     gameWorld.players.clear();
     server.close();
