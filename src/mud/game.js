@@ -2,6 +2,7 @@
  * The game module
  * @module game
  */
+import { emote } from './commands.js';
 
 /**
  * Handles raw player input and returns the message to send back to the client
@@ -24,7 +25,7 @@ function handlePlayerInput(world, key, message) {
     const others = `${p.name} has joined the game`;
     return reply(self, others);
   }
-  return reply(message);
+  return parse(world, key, message);
 }
 
 function notRegistered(player) {
@@ -56,6 +57,22 @@ function reply(self, others) {
     self,
     others: others || undefined
   };
+}
+
+function parse(world, key, message) {
+  const verb = message.toLowerCase().trim().split(' ')[0];
+  const args = message.replace(/emote/gi, '').toLowerCase().trim();
+  console.log(`${verb}, ${args}`);
+  const player = world.players.get(key);
+  if (verb === 'emote') {
+    return emote(verb, args, {
+      player
+    });
+  } else {
+    return {
+      self: `I don't understand the word "${verb}."`
+    };
+  }
 }
 
 export { handlePlayerInput };
