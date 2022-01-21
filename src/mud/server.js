@@ -40,8 +40,8 @@ function onConnection(client, server, world) {
   /* Then set up to handle client messages */
   client.on('message', (data, isBinary) => {
     const sanitized = sanitizeData(data, isBinary);
-    const message = handlePlayerInput(world, client, sanitized);
-    client.send(message);
+    const reply = handlePlayerInput(world, client, sanitized);
+    broadCast(client, server, reply);
   });
 }
 
@@ -49,6 +49,18 @@ function sanitizeData(data, isBinary) {
   if (isBinary) return null;
   const message = `${data}`;
   return message;
+}
+
+function broadCast(client, server, message) {
+  client.send(message.self);
+  if (!message.others) return;
+  server.clients.forEach((cl) => {
+    if (cl !== client) {
+      if (cl.readyState == WebSocket.OPEN) {
+        cl.send(message.others);
+      }
+    }
+  });
 }
 
 export { startServer };

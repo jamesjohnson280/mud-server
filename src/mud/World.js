@@ -6,14 +6,16 @@
 /** The game world */
 class World {
   #players;
+  #rooms;
 
   /**
    * Creates a new instance of the World
    * @example
    * const world = new World();
    */
-  constructor() {
+  constructor(rooms = {}) {
     this.#players = new Map();
+    this.#rooms = new Map(Object.entries(rooms));
   }
 
   /**
@@ -25,6 +27,10 @@ class World {
    */
   get players() {
     return this.#players;
+  }
+
+  get rooms() {
+    return this.#rooms;
   }
 }
 
