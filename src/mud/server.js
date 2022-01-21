@@ -61,7 +61,6 @@ function broadCast(client, server, message) {
   client.send(message.self);
 
   if (!message.others) {
-    console.log('others');
     return;
   }
   server.clients.forEach((cl) => {

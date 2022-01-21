@@ -40,6 +40,17 @@ describe('server', () => {
     expect(/Hello, Jim/gi.test(`${data}`)).toBeTruthy();
   });
 
+  test('messages for the player are not sent to others', async () => {
+    const client = new WebSocket(serverUrl);
+    await onMessage(client);
+    client.send('Jim');
+    await onMessage(client);
+    client.send('foo');
+    const { data } = await onMessage(client);
+    client.close();
+    expect(/I don't understand/gi.test(`${data}`)).toBeTruthy();
+  });
+
   test('it alerts other players when another takes an action', async () => {
     const brian = new WebSocket(serverUrl);
     await onMessage(brian);
