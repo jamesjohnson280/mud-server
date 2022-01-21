@@ -62,7 +62,6 @@ function reply(self, others) {
 function parse(world, key, message) {
   const verb = message.toLowerCase().trim().split(' ')[0];
   const args = message.replace(/emote/gi, '').toLowerCase().trim();
-  console.log(`${verb}, ${args}`);
   const player = world.players.get(key);
   if (verb === 'emote') {
     return emote(verb, args, {
