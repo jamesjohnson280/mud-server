@@ -17,6 +17,7 @@ import { emote } from './commands.js';
  */
 function handlePlayerInput(world, key, message) {
   const player = world.players.get(key);
+
   if (notRegistered(player)) {
     const buf = registerPlayer(world, key, message);
     const buf2 = doIntro(world, key);
@@ -25,6 +26,7 @@ function handlePlayerInput(world, key, message) {
     const others = `${p.name} has joined the game`;
     return reply(self, others);
   }
+
   return parse(world, key, message);
 }
 
@@ -38,17 +40,20 @@ function notRegistered(player) {
 
 function registerPlayer(world, key, message) {
   const name = message ? `${message}`.trim() : '';
+
   if (!name) {
     return 'Enter your name:';
   }
+
   world.players.set(key, { name });
   return `Hello, ${name}.`;
 }
 
 function doIntro(world, key) {
   const player = world.players.get(key);
-  world.players.set(key, { ...player, seenIntro: true, location: 'dirt-road' });
   const room = world.rooms.get('dirt-road');
+
+  world.players.set(key, { ...player, seenIntro: true, location: 'dirt-road' });
   return ` You start off at the:\n\n${room.name}\n${room.description}`;
 }
 
@@ -63,15 +68,15 @@ function parse(world, key, message) {
   const verb = message.toLowerCase().trim().split(' ')[0];
   const args = message.replace(/emote/gi, '').toLowerCase().trim();
   const player = world.players.get(key);
+
   if (verb === 'emote') {
     return emote(verb, args, {
       player
     });
-  } else {
-    return {
-      self: `I don't understand the word "${verb}."`
-    };
   }
+  return {
+    self: `I don't understand the word "${verb}."`
+  };
 }
 
 export { handlePlayerInput };
