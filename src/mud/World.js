@@ -29,6 +29,17 @@ class World {
     return this.#players;
   }
 
+  /**
+   * A `Map` containing all of the rooms in the World
+   * @example
+   * const room = world.rooms.get('forest');
+   * console.log(room);
+   * // {
+   * //   name: 'The Forest',
+   * //   description: 'You are standing in a forest. To the south is a meadow',
+   * //   exits: { south: 'meadow' }
+   * // }
+   */
   get rooms() {
     return this.#rooms;
   }

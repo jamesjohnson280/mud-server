@@ -53,6 +53,7 @@ function sanitizeData(data, isBinary) {
 
 function broadCast(client, server, message) {
   client.send(message.self);
+
   if (!message.others) return;
   server.clients.forEach((cl) => {
     if (cl !== client) {

@@ -19,7 +19,20 @@ describe('game', () => {
 
   test('it handles registered player input', () => {
     world.players.set(key, { name: 'Jim' });
-    const message = handlePlayerInput(world, key, 'hi');
-    expect(message.self).toBe('hi');
+    const message = handlePlayerInput(world, key, 'emote is smiling.');
+    const expected = {
+      self: 'You emote "is smiling."',
+      others: 'Jim is smiling.'
+    };
+    expect(message).toEqual(expected);
+  });
+
+  test("it tells the player when it doesn't understand input", () => {
+    world.players.set(key, { name: 'Jim' });
+    const message = handlePlayerInput(world, key, 'foo bar');
+    const expected = {
+      self: 'I don\'t understand the word "foo."'
+    };
+    expect(message).toEqual(expected);
   });
 });
