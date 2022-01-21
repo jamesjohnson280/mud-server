@@ -2,7 +2,7 @@
  * The Mud server
  * @module server
  */
-import { WebSocket, WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { Title, Version } from './constants.js';
 import { handlePlayerInput } from './game.js';
 
