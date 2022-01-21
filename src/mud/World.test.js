@@ -12,4 +12,10 @@ describe('World', () => {
     const world = new World(rooms);
     expect(world.rooms.size).toBe(numRooms);
   });
+
+  test('The world contains the default starting room', () => {
+    const world = new World(rooms);
+    const start = world.startRoom;
+    expect(start).toEqual(rooms['start-room']);
+  });
 });

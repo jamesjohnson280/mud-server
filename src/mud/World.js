@@ -43,6 +43,13 @@ class World {
   get rooms() {
     return this.#rooms;
   }
+
+  /**
+   * Returns the default starting room's key
+   */
+  get startRoom() {
+    return this.#rooms.get('start-room');
+  }
 }
 
 export { World };
