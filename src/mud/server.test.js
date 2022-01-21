@@ -58,6 +58,16 @@ describe('server', () => {
     expect(/Jim has joined the game/gi.test(`${data}`)).toBeTruthy();
   });
 
+  test('it returns an error if the client sends binary data', async () => {
+    const client = new WebSocket(serverUrl);
+    await onMessage(client);
+    const buf = new Int32Array();
+    client.send(buf);
+    const { data } = await onMessage(client);
+    client.close();
+    expect(`${data}`).toEqual('Error: Improper message format.');
+  });
+
   afterAll(() => {
     gameWorld.players.clear();
     server.close();

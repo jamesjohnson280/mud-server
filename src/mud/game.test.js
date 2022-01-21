@@ -11,6 +11,12 @@ describe('game', () => {
     expect(/Hello, Jim./gi.test(message.self)).toBeTruthy();
   });
 
+  test("it reprompts when a player doesn't enter their name", () => {
+    world.players.set(key, { name: '' });
+    const message = handlePlayerInput(world, key, '');
+    expect(/Enter your name/gi.test(message.self)).toBeTruthy();
+  });
+
   test('after registering, it sends the player to the starting room', () => {
     world.players.set(key, { name: '' });
     const message = handlePlayerInput(world, key, 'Jim');
