@@ -1,5 +1,5 @@
 /**
- * The game module
+ * The game manager
  * @module game
  */
 import { emote } from './commands.js';
@@ -9,11 +9,11 @@ import { emote } from './commands.js';
  * @example
  * const message = handleInput(client, new World(), 'Jim');
  * console.log(message);
- * // 'Hello, Jim'
+ * // { self: 'Hello, Jim', others: 'Jim has entered the game.' }
  * @param {World} world The game World object
  * @param {Any} key The key used to lookup the player in the world.
  * @param {string} message The input to handle
- * @returns A string containing the result of processing the input to be send back to the player
+ * @returns An object containing the strings to send back to the players
  */
 function handlePlayerInput(world, key, message) {
   const player = world.players.get(key);
@@ -26,11 +26,7 @@ function handlePlayerInput(world, key, message) {
 }
 
 function notRegistered(player) {
-  if (!player) return true;
-  if (player.name && typeof player.name === 'string') {
-    return false;
-  }
-  return true;
+  return !player?.name;
 }
 
 function registerPlayer(world, key, message) {

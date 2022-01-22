@@ -11,6 +11,7 @@ describe('commands', () => {
         }
       };
       const result = emote(verb, args, context);
+
       const expected = {
         self: 'You emote "is smiling."',
         others: 'Jim is smiling.'
@@ -27,6 +28,7 @@ describe('commands', () => {
         }
       };
       const result = emote(verb, args, context);
+
       const expected = {
         self: 'You emote.',
         others: 'Jim emotes.'

@@ -10,7 +10,7 @@ import { handlePlayerInput } from './game.js';
  * Starts the Mud server
  * @example
  * // Starts the server on port 80
- * const world = new World();
+ * const world = new World(rooms);
  * const config = { port: 80 }
  * startServer(world, config);
  * @param {World} world An instance of the game world @see {@link World}
@@ -44,6 +44,7 @@ function onConnection(client, server, world) {
       client.send(`Error: ${sanitized.error}`);
       return;
     }
+
     const reply = handlePlayerInput(world, client, sanitized);
     broadCast(client, server, reply);
   });
@@ -53,6 +54,7 @@ function sanitizeData(data, isBinary) {
   if (isBinary) {
     return { error: 'Improper message format.' };
   }
+
   const message = `${data}`;
   return message;
 }
