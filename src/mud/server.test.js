@@ -1,4 +1,4 @@
-import { WebSocket } from 'ws';
+import WebSocket from 'ws';
 import { startServer } from './server.js';
 import { World } from './World.js';
 import { config } from '../config.js';
@@ -14,30 +14,49 @@ describe('server', () => {
   });
 
   test('it accepts incoming connections', async () => {
-    const mockConnection = jest.fn();
     const client = new WebSocket(serverUrl);
+    const mockConnection = jest.fn();
+
     client.on('open', () => {
       mockConnection();
       client.close();
     });
     await socketState(client, WebSocket.CLOSED);
+
     expect(mockConnection).toHaveBeenCalled();
   });
 
   test('it sends a welcome message', async () => {
     const client = new WebSocket(serverUrl);
+
     const { data } = await onMessage(client);
     client.close();
+
     expect(`${data}`).toEqual('Welcome to SocketMud');
   });
 
   test('it replies to messages it receives', async () => {
     const client = new WebSocket(serverUrl);
-    await onMessage(client); /* skip welcome message */
+
+    await onMessage(client);
     client.send('Jim');
     const { data } = await onMessage(client);
     client.close();
+
     expect(/Hello, Jim/gi.test(`${data}`)).toBeTruthy();
+  });
+
+  test('messages for the player are not sent to others', async () => {
+    const client = new WebSocket(serverUrl);
+
+    await onMessage(client);
+    client.send('Jim');
+    await onMessage(client);
+    client.send('foo');
+    const { data } = await onMessage(client);
+    client.close();
+
+    expect(/I don't understand/gi.test(`${data}`)).toBeTruthy();
   });
 
   test('it alerts other players when another takes an action', async () => {
@@ -56,6 +75,18 @@ describe('server', () => {
     brian.close();
 
     expect(/Jim has joined the game/gi.test(`${data}`)).toBeTruthy();
+  });
+
+  test('it returns an error if the client sends binary data', async () => {
+    const client = new WebSocket(serverUrl);
+    const buf = new Int32Array();
+
+    await onMessage(client);
+    client.send(buf);
+    const { data } = await onMessage(client);
+    client.close();
+
+    expect(`${data}`).toEqual('Error: Improper message format.');
   });
 
   afterAll(() => {

@@ -11,7 +11,8 @@ class World {
   /**
    * Creates a new instance of the World
    * @example
-   * const world = new World();
+   * const world = new World(rooms);
+   * @param {object} rooms An object containing room configuration
    */
   constructor(rooms = {}) {
     this.#players = new Map();
@@ -42,6 +43,13 @@ class World {
    */
   get rooms() {
     return this.#rooms;
+  }
+
+  /**
+   * Returns the default starting room's key
+   */
+  get startRoom() {
+    return this.#rooms.get('start-room');
   }
 }
 

@@ -3,7 +3,8 @@ const rooms = Object.freeze({
     name: 'Dirt Road',
     description: 'You are standing on a dirt road.',
     exits: {}
-  }
+  },
+  'start-room': 'dirt-road'
 });
 
 export { rooms };

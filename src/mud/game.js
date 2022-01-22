@@ -1,5 +1,5 @@
 /**
- * The game module
+ * The game manager
  * @module game
  */
 import { emote } from './commands.js';
@@ -9,59 +9,44 @@ import { emote } from './commands.js';
  * @example
  * const message = handleInput(client, new World(), 'Jim');
  * console.log(message);
- * // 'Hello, Jim'
+ * // { self: 'Hello, Jim', others: 'Jim has entered the game.' }
  * @param {World} world The game World object
  * @param {Any} key The key used to lookup the player in the world.
  * @param {string} message The input to handle
- * @returns A string containing the result of processing the input to be send back to the player
+ * @returns An object containing the strings to send back to the players
  */
 function handlePlayerInput(world, key, message) {
   const player = world.players.get(key);
 
   if (notRegistered(player)) {
-    const buf = registerPlayer(world, key, message);
-    const buf2 = doIntro(world, key);
-    const self = `${buf}${buf2}`;
-    const p = world.players.get(key);
-    const others = `${p.name} has joined the game`;
-    return reply(self, others);
+    return registerPlayer(world, key, message);
   }
 
   return parse(world, key, message);
 }
 
 function notRegistered(player) {
-  if (!player) return true;
-  if (player.name && typeof player.name === 'string') {
-    return false;
-  }
-  return true;
+  return !player?.name;
 }
 
 function registerPlayer(world, key, message) {
+  const player = world.players.get(key);
+  const room = world.rooms.get('dirt-road');
   const name = message ? `${message}`.trim() : '';
 
   if (!name) {
-    return 'Enter your name:';
+    return { self: 'Enter your name:' };
   }
 
-  world.players.set(key, { name });
-  return `Hello, ${name}.`;
-}
+  world.players.set(key, {
+    ...player,
+    name,
+    location: 'dirt-road'
+  });
 
-function doIntro(world, key) {
-  const player = world.players.get(key);
-  const room = world.rooms.get('dirt-road');
-
-  world.players.set(key, { ...player, seenIntro: true, location: 'dirt-road' });
-  return ` You start off at the:\n\n${room.name}\n${room.description}`;
-}
-
-function reply(self, others) {
-  return {
-    self,
-    others: others || undefined
-  };
+  const self = `Hello, ${name}. You start off at the:\n\n${room.name}\n${room.description}`;
+  const others = `${name} has joined the game.`;
+  return { self, others };
 }
 
 function parse(world, key, message) {
