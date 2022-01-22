@@ -89,6 +89,17 @@ describe('server', () => {
     expect(`${data}`).toEqual('Error: Improper message format.');
   });
 
+  test('it removes players when their connection closes', async () => {
+    const client = new WebSocket(serverUrl);
+
+    await socketState(client, WebSocket.OPEN);
+    const size = server.clients.size;
+    client.close();
+    await socketState(client, WebSocket.CLOSED);
+
+    expect(server.clients.size).toBe(size - 1);
+  });
+
   afterAll(() => {
     gameWorld.players.clear();
     server.close();

@@ -48,6 +48,11 @@ function onConnection(client, server, world) {
     const reply = handlePlayerInput(world, client, sanitized);
     broadCast(client, server, reply);
   });
+
+  /* Remove disconnected players */
+  client.on('close', () => {
+    world.players.delete(client);
+  });
 }
 
 function sanitizeData(data, isBinary) {
