@@ -31,9 +31,7 @@ function startServer(world, config) {
 function onConnection(client, server, world) {
   /* First Send a welcome message */
   if (client.readyState === WebSocket.OPEN) {
-    client.send(`Welcome to ${Title}`);
-    client.send('');
-    client.send('Enter your name:');
+    client.send(`Welcome to ${Title}\nEnter your name:`);
     world.players.set(client, {});
   }
 
@@ -47,6 +45,11 @@ function onConnection(client, server, world) {
 
     const reply = handlePlayerInput(world, client, sanitized);
     broadCast(client, server, reply);
+  });
+
+  /* Remove disconnected players */
+  client.on('close', () => {
+    world.players.delete(client);
   });
 }
 

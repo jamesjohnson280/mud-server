@@ -5,12 +5,12 @@ import { config } from '../config.js';
 import { rooms } from './data/rooms.js';
 
 const serverUrl = `ws://localhost:${config.port}`;
-const gameWorld = new World(rooms);
+const world = new World(rooms);
 let server;
 
 describe('server', () => {
   beforeAll(() => {
-    server = startServer(gameWorld, config);
+    server = startServer(world, config);
   });
 
   test('it accepts incoming connections', async () => {
@@ -32,7 +32,7 @@ describe('server', () => {
     const { data } = await onMessage(client);
     client.close();
 
-    expect(`${data}`).toEqual('Welcome to SocketMud');
+    expect(/Welcome to SocketMud/gi.test(`${data}`)).toBeTruthy();
   });
 
   test('it replies to messages it receives', async () => {
@@ -89,8 +89,21 @@ describe('server', () => {
     expect(`${data}`).toEqual('Error: Improper message format.');
   });
 
+  test('it removes players when their connection closes', async () => {
+    const client = new WebSocket(serverUrl);
+
+    await onMessage(client);
+    client.send('John');
+    await onMessage(client);
+    const size = world.players.size;
+    client.close();
+    await socketState(client, WebSocket.CLOSED);
+
+    expect(world.players.size).toEqual(size - 1);
+  });
+
   afterAll(() => {
-    gameWorld.players.clear();
+    world.players.clear();
     server.close();
   });
 });
