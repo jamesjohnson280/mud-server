@@ -5,12 +5,12 @@ import { config } from '../config.js';
 import { rooms } from './data/rooms.js';
 
 const serverUrl = `ws://localhost:${config.port}`;
-const gameWorld = new World(rooms);
+const world = new World(rooms);
 let server;
 
 describe('server', () => {
   beforeAll(() => {
-    server = startServer(gameWorld, config);
+    server = startServer(world, config);
   });
 
   test('it accepts incoming connections', async () => {
@@ -101,7 +101,7 @@ describe('server', () => {
   });
 
   afterAll(() => {
-    gameWorld.players.clear();
+    world.players.clear();
     server.close();
   });
 });
