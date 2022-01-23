@@ -32,7 +32,7 @@ describe('server', () => {
     const { data } = await onMessage(client);
     client.close();
 
-    expect(`${data}`).toEqual('Welcome to SocketMud');
+    expect(/Welcome to SocketMud/gi.test(`${data}`)).toBeTruthy();
   });
 
   test('it replies to messages it receives', async () => {
