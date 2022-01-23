@@ -51,7 +51,10 @@ function registerPlayer(world, key, message) {
 
 function parse(world, key, message) {
   const verb = message.toLowerCase().trim().split(' ')[0];
-  const args = message.replace(new RegExp(verb, 'ig'), '').toLowerCase().trim();
+  const args = message
+    .replace(/^(\w+)/i, '')
+    .toLowerCase()
+    .trim();
   const player = world.players.get(key);
 
   if (verb === 'emote') {
