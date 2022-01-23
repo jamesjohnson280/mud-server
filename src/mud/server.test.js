@@ -1,4 +1,4 @@
-import WebSocket, { on } from 'ws';
+import WebSocket from 'ws';
 import { startServer } from './server.js';
 import { World } from './World.js';
 import { config } from '../config.js';
