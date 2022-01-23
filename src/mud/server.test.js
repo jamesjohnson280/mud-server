@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+import WebSocket, { on } from 'ws';
 import { startServer } from './server.js';
 import { World } from './World.js';
 import { config } from '../config.js';
@@ -92,12 +92,14 @@ describe('server', () => {
   test('it removes players when their connection closes', async () => {
     const client = new WebSocket(serverUrl);
 
-    await socketState(client, WebSocket.OPEN);
-    const size = server.clients.size;
+    await onMessage(client);
+    client.send('John');
+    await onMessage(client);
+    const size = world.players.size;
     client.close();
     await socketState(client, WebSocket.CLOSED);
 
-    expect(server.clients.size).toBe(size - 1);
+    expect(world.players.size).toEqual(size - 1);
   });
 
   afterAll(() => {
