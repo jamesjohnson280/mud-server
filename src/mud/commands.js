@@ -26,4 +26,23 @@ function emote(verb, args, context) {
   };
 }
 
-export { emote };
+function walk(verb, args, context) {
+  const { client, player, world } = context;
+  const direction = args;
+  const room = world.rooms.get(player.location);
+  const destKey = room.exits[`${direction}`];
+  if (!destKey) {
+    return {
+      self: 'The way is blocked.'
+    };
+  }
+
+  const destRoom = world.rooms.get(destKey);
+  world.players.set(client, { ...player, location: destKey });
+  return {
+    self: `\n${destRoom.name}\n${destRoom.description}`,
+    others: `${player.name} went ${direction}.`
+  };
+}
+
+export { emote, walk };

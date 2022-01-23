@@ -2,7 +2,7 @@
  * The game manager
  * @module game
  */
-import { emote } from './commands.js';
+import { emote, walk } from './commands.js';
 
 /**
  * Handles raw player input and returns the message to send back to the client
@@ -51,12 +51,18 @@ function registerPlayer(world, key, message) {
 
 function parse(world, key, message) {
   const verb = message.toLowerCase().trim().split(' ')[0];
-  const args = message.replace(/emote/gi, '').toLowerCase().trim();
+  const args = message.replace(new RegExp(verb, 'ig'), '').toLowerCase().trim();
   const player = world.players.get(key);
 
   if (verb === 'emote') {
     return emote(verb, args, {
       player
+    });
+  } else if (verb === 'walk') {
+    return walk(verb, args, {
+      player,
+      world,
+      client: key
     });
   }
   return {
