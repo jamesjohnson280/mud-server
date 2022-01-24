@@ -29,6 +29,12 @@ function emote(verb, args, context) {
 function walk(verb, args, context) {
   const { client, player, world } = context;
   const direction = args;
+  if (!direction) {
+    return {
+      self: 'Which direction would you like to go?'
+    };
+  }
+
   const room = world.rooms.get(player.location);
   const destKey = room.exits[`${direction}`];
   if (!destKey) {
@@ -45,4 +51,9 @@ function walk(verb, args, context) {
   };
 }
 
-export { emote, walk };
+const Commands = Object.freeze({
+  emote,
+  walk
+});
+
+export { Commands, emote, walk };

@@ -2,7 +2,8 @@
  * The game manager
  * @module game
  */
-import { emote, walk } from './commands.js';
+import { Dictionary } from './Vocabulary.js';
+import { Commands, emote, walk } from './commands.js';
 
 /**
  * Handles raw player input and returns the message to send back to the client
@@ -57,20 +58,25 @@ function parse(world, key, message) {
     .trim();
   const player = world.players.get(key);
 
-  if (verb === 'emote') {
-    return emote(verb, args, {
-      player
-    });
-  } else if (verb === 'walk') {
-    return walk(verb, args, {
+  if (verb in Dictionary) {
+    let _verb = Dictionary[`${verb}`].token;
+    let _args = args;
+    if (Dictionary[`${verb}`].type === 'direction') {
+      _verb = 'walk';
+      _args = Dictionary[`${verb}`].token;
+    }
+
+    return Commands[`${_verb}`](_verb, _args, {
       player,
       world,
       client: key
     });
   }
-  return {
-    self: `I don't understand the word "${verb}."`
-  };
+  if (!(verb in Dictionary)) {
+    return {
+      self: `I don't understand the word "${verb}."`
+    };
+  }
 }
 
 export { handlePlayerInput };

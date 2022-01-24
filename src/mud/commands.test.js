@@ -80,5 +80,25 @@ describe('commands', () => {
       };
       expect(result).toEqual(expected);
     });
+
+    test("it prompts for a direction if the player doesn't supply one", () => {
+      const verb = 'walk';
+      const args = '';
+      const world = new World(rooms);
+      const context = {
+        client: { id: 'jim' },
+        player: {
+          name: 'Jim',
+          location: 'dirt-road'
+        },
+        world
+      };
+      const result = walk(verb, args, context);
+
+      const expected = {
+        self: 'Which direction would you like to go?'
+      };
+      expect(result).toEqual(expected);
+    });
   });
 });
