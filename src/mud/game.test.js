@@ -52,7 +52,7 @@ describe('game', () => {
     const message = handlePlayerInput(world, key, 'north');
 
     const expected = {
-      self: 'The way is blocked.q'
+      self: 'The way is blocked.'
     };
     expect(message).toEqual(expected);
   });
