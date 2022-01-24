@@ -36,7 +36,7 @@ function walk(verb, args, context) {
   }
 
   const room = world.rooms.get(player.location);
-  const destKey = room.exits[`${direction}`];
+  const destKey = room?.exits[`${direction}`];
   if (!destKey) {
     return {
       self: 'The way is blocked.'

@@ -46,4 +46,15 @@ describe('game', () => {
     };
     expect(message).toEqual(expected);
   });
+
+  test('it expands directions into verbs', () => {
+    world.players.set(key, { name: 'Jim' });
+    console.log(world.rooms, 'world');
+    const message = handlePlayerInput(world, key, 'north');
+
+    const expected = {
+      self: 'The way is blocked.q'
+    };
+    expect(message).toEqual(expected);
+  });
 });
