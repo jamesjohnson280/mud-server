@@ -3,7 +3,7 @@
  * @module game
  */
 import { Dictionary } from './Vocabulary.js';
-import { Commands, emote, walk } from './commands.js';
+import { Commands } from './commands.js';
 
 /**
  * Handles raw player input and returns the message to send back to the client
