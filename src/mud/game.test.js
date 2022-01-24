@@ -49,7 +49,6 @@ describe('game', () => {
 
   test('it expands directions into verbs', () => {
     world.players.set(key, { name: 'Jim' });
-    console.log(world.rooms, 'world');
     const message = handlePlayerInput(world, key, 'north');
 
     const expected = {
