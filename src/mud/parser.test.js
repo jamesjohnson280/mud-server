@@ -20,8 +20,18 @@ describe('parser', () => {
     expect(result).toEqual({ verb: 'walk', type: 'verb', args: '' });
   });
 
+  test('it does not parse nonsense verbs', () => {
+    const result = parseVerb('floob');
+    expect(result).toEqual({ verb: 'floob', type: 'unknown', args: '' });
+  });
+
   test('it parses args', () => {
     const result = parseArgs('w');
     expect(result).toEqual({ token: 'west', type: 'direction' });
+  });
+
+  test('it does not parse nonsense args', () => {
+    const result = parseArgs('blarg');
+    expect(result).toEqual({ token: 'blarg', type: 'unknown' });
   });
 });
