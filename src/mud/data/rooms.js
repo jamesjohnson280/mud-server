@@ -9,7 +9,7 @@ const rooms = Object.freeze({
   inn: {
     name: 'Sleepy Inn',
     description:
-      'This inn offers hot food and a warm bed for test. East is the road.',
+      'This inn offers hot food and a warm bed for rest. East is the road.',
     exits: {
       east: 'dirt-road'
     }
