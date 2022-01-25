@@ -2,6 +2,7 @@
  * All the commands available to players
  * @module commands
  */
+import { parseArgs } from './parser.js';
 
 /**
  * Broadcasts an emote to every player in a room
@@ -28,7 +29,7 @@ function emote(verb, args, context) {
 
 function walk(verb, args, context) {
   const { client, player, world } = context;
-  const direction = args;
+  const direction = parseArgs(args).token;
   if (!direction) {
     return {
       self: 'Which direction would you like to go?'
