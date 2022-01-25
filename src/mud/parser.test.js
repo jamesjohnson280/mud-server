@@ -22,6 +22,6 @@ describe('parser', () => {
 
   test('it parses args', () => {
     const result = parseArgs('w');
-    expect(result).toEqual({ verb: 'walk', type: 'verb', args: 'west' });
+    expect(result).toEqual({ token: 'west', type: 'direction' });
   });
 });

@@ -47,7 +47,13 @@ function parseVerb(message) {
 }
 
 function parseArgs(args) {
-  return parseVerb(args);
+  if (!(args in Dictionary)) {
+    return {
+      token: args,
+      type: 'unknown'
+    };
+  }
+  return Dictionary[`${args}`];
 }
 
 export { parse, parseVerb, parseArgs };
