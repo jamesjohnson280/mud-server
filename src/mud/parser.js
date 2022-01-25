@@ -1,4 +1,4 @@
-import { Commands } from './commands.js';
+import { Commands } from './Commands.js';
 import { Dictionary } from './Vocabulary.js';
 
 function parse(world, key, message) {

@@ -56,4 +56,4 @@ const Commands = Object.freeze({
   walk
 });
 
-export { Commands, emote, walk };
+export { Commands };

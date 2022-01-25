@@ -1,5 +1,5 @@
 import { World } from './World.js';
-import { emote, walk } from './commands.js';
+import { Commands } from './Commands.js';
 import { rooms } from './data/rooms.js';
 
 describe('commands', () => {
@@ -12,7 +12,7 @@ describe('commands', () => {
           name: 'Jim'
         }
       };
-      const result = emote(verb, args, context);
+      const result = Commands.emote(verb, args, context);
 
       const expected = {
         self: 'You emote "is smiling."',
@@ -29,7 +29,7 @@ describe('commands', () => {
           name: 'Jim'
         }
       };
-      const result = emote(verb, args, context);
+      const result = Commands.emote(verb, args, context);
 
       const expected = {
         self: 'You emote.',
@@ -52,7 +52,7 @@ describe('commands', () => {
         },
         world
       };
-      const result = walk(verb, args, context);
+      const result = Commands.walk(verb, args, context);
 
       const expected = {
         self: `\n${rooms.inn.name}\n${rooms.inn.description}`,
@@ -73,7 +73,7 @@ describe('commands', () => {
         },
         world
       };
-      const result = walk(verb, args, context);
+      const result = Commands.walk(verb, args, context);
 
       const expected = {
         self: 'The way is blocked.'
@@ -93,7 +93,7 @@ describe('commands', () => {
         },
         world
       };
-      const result = walk(verb, args, context);
+      const result = Commands.walk(verb, args, context);
 
       const expected = {
         self: 'Which direction would you like to go?'
