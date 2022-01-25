@@ -56,4 +56,14 @@ describe('game', () => {
     };
     expect(message).toEqual(expected);
   });
+
+  test.skip('it expands abbreviated directions', () => {
+    world.players.set(key, { name: 'Jim' });
+    const message = handlePlayerInput(world, key, 'go w');
+
+    const expected = {
+      self: ''
+    };
+    expect(message).toEqual(expected);
+  });
 });
