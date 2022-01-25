@@ -39,7 +39,7 @@ const Up = Object.freeze({
 });
 
 const Down = Object.freeze({
-  token: 'north',
+  token: 'down',
   type: 'direction'
 });
 
