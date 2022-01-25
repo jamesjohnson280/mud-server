@@ -1,3 +1,8 @@
+/**
+ * Handles parsing player text input
+ * @module parser
+ */
+
 import { Commands } from './Commands.js';
 import { Dictionary } from './Vocabulary.js';
 

@@ -1,3 +1,8 @@
+/**
+ * Keeps track of all the words the game understands
+ * @module Vocabulary
+ */
+
 const Emote = Object.freeze({
   token: 'emote',
   type: 'verb'
