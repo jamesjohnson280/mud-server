@@ -2,8 +2,6 @@
  * The game manager
  * @module game
  */
-import { Dictionary } from './Vocabulary.js';
-import { Commands } from './Commands.js';
 import { parse } from './parser.js';
 
 /**
